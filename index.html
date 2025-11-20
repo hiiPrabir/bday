@@ -19,6 +19,10 @@
 </head>
 
 <body>
+    <audio id="birthdayMusic" autoplay muted loop>
+    <source src="music.mp3" type="audio/mp3">
+</audio>
+
     <div id="wrapper">
         <div class="flag__birthday">
             <img src="./images/1.png" alt="" width="350" class="flag__left">
@@ -156,9 +160,33 @@
             </div>
         </div>
     </div>
+<button id="muteBtn">🔊</button>
 
 </body>
 <script>
+    const audio = document.getElementById("birthdayMusic");
+    const muteBtn = document.getElementById("muteBtn");
+    window.addEventListener("click", () => {
+    audio.muted = false;
+    audio.play();
+}, { once: true });
+    muteBtn.addEventListener("click", () => {
+    audio.muted = !audio.muted;
+    muteBtn.textContent = audio.muted ? "🔇" : "🔊";
+});
+    audio.volume = 1.0; // Full volume (you can reduce like 0.5 if needed)
+
+    // Try autoplay after small delay
+    setTimeout(() => {
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(() => {
+                console.log("Autoplay blocked. Will play on button interaction.");
+            });
+        }
+    }, 2000);
+
+
     let datetxt = "27 November";
     let datatxtletter = "My love. You are a very special girl. I always silently thank you for coming into my life. Today, I wish you all the best, lots of health, and lots of joy. I always hope we will celebrate many more birthdays like this together. Happy birthday to you.💕";
     let titleLetter = "To you";
@@ -170,6 +198,7 @@
     let currentIndexTitle = 0;
     let date__of__birth = document.querySelector(".date__of__birth span");
     let text__letter = document.querySelector(".text__letter p");
+
     setTimeout(function () {
         timeDatetxt = setInterval(function () {
             if (currentIndex < charArrDate.length) {
@@ -189,6 +218,8 @@
     var intervalContent;
     var intervalTitle;
     $("#btn__letter").on("click", function () {
+        audio.play(); // Ensure music starts on click
+
         $(".box__letter").slideDown()
         setTimeout(function () {
             $(".letter__border").slideDown();
@@ -229,6 +260,7 @@
             }, 50)
         }, 6000)
     })
+
     $(".close").on("click", function () {
         clearInterval(intervalContent)
         document.querySelector(".title__letter").textContent = "";
@@ -245,19 +277,19 @@
         $(".letter__border").slideUp();
     })
 
-
-
     let mailBox = document.querySelector('.mail')
     let boxmail = document.querySelector('.boxMail')
     var close = document.querySelector('.fa-xmark')
     mailBox.onclick = function () {
         mailBox.classList.toggle('active')
         boxmail.classList.add('active')
+        audio.play(); // Also play here
     }
 
     close.addEventListener('click', function () {
         boxmail.classList.remove('active')
     })
 </script>
+
 
 </html>
